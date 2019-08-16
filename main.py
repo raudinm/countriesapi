@@ -1,8 +1,6 @@
 import json, requests
-from pprint import pprint
 
-# 6654861ce92fba1729c5db8a7b0ad3ba, f011d84c6f4d9ff4ead6bf9d380ecef8, 27c12fb04725c33272101339afe2a075
-API_KEY = '27c12fb04725c33272101339afe2a075'
+API_KEY = '26a384ee292eed7b8802b0b56cb72efd'
 
 def sendRequest(url):
     response = requests.get(url)
@@ -35,11 +33,10 @@ def saveRegionsToFile():
         index = 0
         while index < len(temp_data):
             print('Procesando...')
-            pprint(temp_data[index]['name'])
+            print(temp_data[index]['name'])
             print('\n')
             
             status = temp_data[index].get('states', None)
-
             if status == None:
                 states = getRegions(temp_data[index]['alpha2Code'])
 
@@ -71,6 +68,10 @@ def saveCitiesToFile():
                 while index2 < len(temp_data[index]['states']):
                     country_code = temp_data[index]['states'][index2]['country']
                     region = temp_data[index]['states'][index2]['region']
+                    
+                    if len(region) < 3: # una region no puede tener menos de 3 caracteres para la api
+                        index2 += 1
+                        continue
 
                     status = temp_data[index]['states'][index2].get('cities', None)
                     if status == None:
@@ -78,6 +79,7 @@ def saveCitiesToFile():
 
                         if cities != None:
                             print('Agregando ciudades a la region {region}...'.format(region=temp_data[index]['states'][index2]['region']))
+                            print('Pais de origen {country}...'.format(country=temp_data[index]['name']))
                             print('\n')
                             temp_data[index]['states'][index2]['cities'] = cities
                         else:
@@ -90,7 +92,6 @@ def saveCitiesToFile():
                         continue
 
                     index2 += 1
-
             index += 1
 
         with open('countries_regions_cities.json', 'w') as file:
