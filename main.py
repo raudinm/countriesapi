@@ -99,3 +99,20 @@ def saveCitiesToFile():
         
 if __name__ == "__main__":
     saveCitiesToFile()
+
+
+# with open('states.json', 'r') as states:
+#     st_data = json.load(states)
+    
+#     with open('states_and_cities.json', 'r') as cities:
+#         ct_data = json.load(cities)
+
+#         lista = []
+#         for ct in ct_data:
+#             value = filter(lambda x: x['name'] == ct, st_data)
+#             if(len(value) > 0):
+#                 value[0]['cities'] = ct_data[ct]
+#                 lista.append(value[0])
+
+#         with open('usa.json', 'w') as file:
+#             json.dump(lista, file, indent=4)
